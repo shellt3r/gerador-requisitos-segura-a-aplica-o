@@ -1,115 +1,115 @@
-# About
-Application Security requirements generator, based on ASVS, OWASP Testing guide and some experience :)
+# Sobre
+Gerador de requisitos de segurança de aplicativos, baseado em ASVS, guia de testes OWASP e alguma experiência :)
 
-![App homescreen](/images/requirements.png?raw=true "App homescreen")
+![Tela inicial do aplicativo](/images/requirements.png?raw=true "Tela inicial do aplicativo")
 
-## More about the problem
-Many of you have seen a huge set of requirements from OWASP and met developers faces with many words to your side about such a big document.
-If not - you may find it [here](https://owasp.org/www-pdf-archive/OWASP_Application_Security_Verification_Standard_4.0-en.pdf) and try to share it to devs without prepairing them :)
+## Mais sobre o problema
+Muitos de vocês viram um enorme conjunto de requisitos do OWASP e encontraram desenvolvedores com muitas palavras sobre um documento tão grande.
+Caso contrário, você pode encontrá-lo [aqui](https://owasp.org/www-pdf-archive/OWASP_Application_Security_Verification_Standard_4.0-en.pdf) e tentar compartilhá-lo com os desenvolvedores sem prepará-los :)
 
-## What we did
-- Split ASVS requirements by functionality
-- Have added a function to mark some requirements as important (so your devs can start from them for example)
-- Mapped requirements to tests
-- Shared it for you in this repository and [on our subdomain](https://requirements.whitespots.io/en)
+## O que fizemos
+- Dividir os requisitos ASVS por funcionalidade
+- Adicionada uma função para marcar alguns requisitos como importantes (para que seus desenvolvedores possam começar a partir deles, por exemplo)
+- Mapeamento de requisitos para testes
+- Compartilhei para você neste repositório e [em nosso subdomínio](https://requirements.whitespots.io/en)
 
-## Now you can
-- Use our free tool online [here](https://requirements.whitespots.io/en)
-- Use our free tool in your infrastructure (see instructions below)
+## Agora você pode
+- Use nossa ferramenta gratuita online [aqui](https://requirements.whitespots.io/en)
+- Utilize nossa ferramenta gratuita em sua infraestrutura (veja instruções abaixo)
 
-And have a useful set of **important** and **relevant** requirements:
+E tenha um conjunto útil de requisitos **importantes** e **relevantes**:
 
 ![pdf](/images/pdf_download.png?raw=true "pdf")
 
 # Clone
 ```bash
-git clone https://github.com/Whitespots-OU/security-requirements-generator.git srg && \
+clone git https://github.com/Whitespots-OU/security-requirements-generator.git srg && \
 cd srg
 ```
 
-# Deploy
-## Server
+# Implantar
+## Servidor
 ```bash
-export BASE_URL=http://hostname.com
+exportar BASE_URL=http://hostname.com
 docker-compose up -d --build
-docker-compose run back migrate
-docker-compose run back loaddata
-docker-compose run back collectstatic
-docker-compose exec back ./manage.py create_super_user --username admin --password PASSWORD
-open https://hostname.com/admin/  # to login and set your company name
+docker-compose run back migrar
+docker-compose executar back loaddata
+docker-compose executar de volta collectstatic
+docker-compose exec back ./manage.py create_super_user --username admin --password SENHA
+abra https://hostname.com/admin/ # para fazer login e definir o nome da sua empresa
 ```
 
 ## Local
-### Back
-- create virtualenv & install requirements
+### Voltar
+- criar virtualenv e instalar requisitos
 ```bash
-cd back
+cd de volta
 pyenv virtualenv 3.9.0 srg_back
-pyenv activate srg_back
-pip install poetry
-poetry install
+pyenv ativar srg_back
+pip instalar poesia
+instalação de poesia
 ```
-- set environments
+- definir ambientes
 ```bash
-export DEBUG=on
-export ALLOWED_HOSTS=*
-export BASE_URL=http://localhost:8000
-export REDIS_DSN=redis://localhost:6379/0
-export DB_USER=user
-export DB_PASS=pass
-export DB_HOST=localhost
-export DB_NAME=srg
+exportar DEBUG = ativado
+exportar ALLOWED_HOSTS=*
+exportar BASE_URL=http://localhost:8000
+exportar REDIS_DSN=redis://localhost:6379/0
+exportar DB_USER = usuário
+exportar DB_PASS = senha
+exportar DB_HOST=localhost
+exportar DB_NAME=srg
 ```
-- call `pre-commit install` at command line
-- create DB in pg market
-- add envs from [.env.dev](back/.env.dev)
-- apply DB migrations `./manage.py migrate`
-- create super user `./manage.py create_super_user`
-- run localserver `./manage.py runserver`
-- open [admin panel](http://localhost:8000/admin/) and login as admin:admin
-- call `make pre-commit` before making a commit
+- chame `pre-commit install` na linha de comando
+- criar banco de dados no mercado pg
+- adicionar ambientes de [.env.dev](back/.env.dev)
+- aplicar migrações de banco de dados `./manage.py migrate`
+- criar superusuário `./manage.py create_super_user`
+- execute servidor local `./manage.py runserver`
+- abra o [painel de administração](http://localhost:8000/admin/) e faça login como admin:admin
+- chame `make pre-commit` antes de fazer um commit
 
-### Front
+### Frente
 ```bash
-cd front
-npm install
-npm run serve
-open http://localhost:8080
-npm run build
+frente do CD
+instalação npm
+npm executar servir
+abra http://localhost:8080
+npm executar compilação
 ```
 
-# FAQ
-### How to add my own categories (app functions), requirements and tests?
-1. Just visit <your_host>/admin and login to the django admin 
-2. Go to categories/requrements/tests (depends on what do you want to add/edit)
-3. After that execute `docker-compose run back dumpdata`
-It will make a dump of all your current categories, requirements and tests config
+# PERGUNTAS FREQUENTES
+### Como adicionar minhas próprias categorias (funções do aplicativo), requisitos e testes?
+1. Basta visitar <your_host>/admin e fazer login no administrador do Django 
+2. Vá para categorias/requisitos/testes (depende do que você deseja adicionar/editar)
+3. Depois disso, execute `docker-compose run back dumpdata`
+Ele fará um despejo de todas as suas categorias, requisitos e configurações de testes atuais
 
-### How to contribute categories, requrements, tests?
-This is not going to cover ALL possible requirements, described in full OWASP ASVS.
-Instead, this tool was designed to help small teams to follow the most important and relevant stuff.
+### Como contribuir com categorias, requisitos, testes?
+Isto não cobrirá TODOS os requisitos possíveis, descritos na íntegra no OWASP ASVS.
+Em vez disso, esta ferramenta foi projetada para ajudar pequenas equipes a acompanhar as coisas mais importantes e relevantes.
 
-1. Before adding something new, try to find the same requirement/test/category in existing data
-2. Feel free to describe existing tests/requirements better
-3. Describe your changes in merge request 
-- Put your changes in a title: New category/New requirements/New tests 
-- Describe in the text which problems have been solved and which have not 
+1. Antes de adicionar algo novo, tente encontrar o mesmo requisito/teste/categoria nos dados existentes
+2. Sinta-se à vontade para descrever melhor os testes/requisitos existentes
+3. Descreva suas alterações na solicitação de mesclagem 
+- Coloque suas alterações em um título: Nova categoria/Novos requisitos/Novos testes 
+- Descrever no texto quais problemas foram resolvidos e quais não foram 
 
-# Contributors
+# Colaboradores
 
-## Development
-@alex-deus - Did all this nice repositories with working code
+## Desenvolvimento
+@alex-deus - Fiz todos esses repositórios legais com código funcional
 
-## Idea drivers
-- @sarosbacz - Noticed, that requirements are mixed with tests without categories
-- @httpnotonly - Brought everyone together
+## Motivadores de ideias
+- @sarosbacz - Percebi que requisitos se misturam com testes sem categorias
+- @httpnotonly - Reuniu todos
 
-## Special thanks for working with content
-- @totoshky - Complexity reduction and refactoring according to recent security trends
+## Agradecimentos especiais por trabalhar com conteúdo
+- @totoshky - Redução de complexidade e refatoração de acordo com tendências recentes de segurança
 - @edgesec
 - @W0uldYk1ndlY
 
 ## Hackers
-- @acrono - Gave us more requirements and tests
-- @a_ashwarya - Gave us more requirements and tests
-
+- @shellt3r - Testou e traduziu os documentos para pt_BR
+- @acrono - Nos deu mais requisitos e testes
+- @a_ashwarya - Nos deu mais requisitos e testes
